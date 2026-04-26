@@ -1,0 +1,27 @@
+{
+  "name": "chatapp-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.5.0",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "chai-http": "^4.3.0",
+    "mocha": "^11.7.5"
+  }
+}

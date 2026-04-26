@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+    button {
+      padding: 8px 12px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f1f1f1;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Simple Chat</h2>
+
+<input id="username" placeholder="Name" />
+<input id="message" placeholder="Message" />
+<button onclick="sendMessage()">Send</button>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+<script>
+  const socket = io("http://localhost:3000");
+
+  const messagesList = document.getElementById("messages");
+
+  // Load old messages
+  fetch("http://localhost:3000/api/messages")
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(msg => {
+        addMessage(msg);
+      });
+    });
+
+  // Receive real-time messages
+  socket.on("receiveMessage", (data) => {
+    addMessage(data);
+  });
+
+  function sendMessage() {
+    const username = document.getElementById("username").value;
+    const message = document.getElementById("message").value;
+
+    if (!username || !message) return;
+
+    socket.emit("sendMessage", { username, message });
+
+    document.getElementById("message").value = "";
+  }
+
+  function addMessage(msg) {
+    const li = document.createElement("li");
+    li.innerText = msg.username + ": " + msg.message;
+    messagesList.appendChild(li);
+  }
+</script>
+
+</body>
+</html>
